@@ -4,6 +4,7 @@ on:
   pull_request_target:
     branches:
       - main
+  merge_group:
 
 # Pin tool versions to prevent problems
 permissions: {}
