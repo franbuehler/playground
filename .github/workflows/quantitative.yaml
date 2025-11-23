@@ -29,6 +29,7 @@ jobs:
         id: quantitative
         run: |
           ls
+          pwd
 
 #          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
 #          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new.json)
