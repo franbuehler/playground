@@ -27,7 +27,7 @@ jobs:
 
       - name: "Run tests"
         id: quantitative
-
+        run: |
           ls
 
 #          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
