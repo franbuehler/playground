@@ -25,6 +25,9 @@ jobs:
           ref: 'main'
           path: 'mainBranchFolder'
 
+      - name: "Run tests"
+        id: quantitative
+
           ls
 
 #          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
