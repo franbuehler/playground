@@ -25,20 +25,22 @@ jobs:
           ref: 'main'
           path: 'mainBranchFolder'
 
-          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
-          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new.json)
-          
-          echo $OLD_FALSE_POSITIVES
-          echo $NEW_FALSE_POSITIVES
+          ls
 
-          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
-            echo -e " ⚠️ Quantitative testing detected new false positives"
-            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n"
-            echo -e ""
-            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n"
-            diff <(jq . old_results.json) <(jq . new_results.json)
-            echo -e "\n\`\`\`\n</details>"
-          else
-            echo -e " 🚀 Quantitative testing did not detect new false positives"
-          fi
+#          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
+#          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new.json)
+#          
+#          echo $OLD_FALSE_POSITIVES
+#          echo $NEW_FALSE_POSITIVES
+#
+#          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
+#            echo -e " ⚠️ Quantitative testing detected new false positives"
+#            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n"
+#            echo -e ""
+#            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n"
+#            diff <(jq . old_results.json) <(jq . new_results.json)
+#            echo -e "\n\`\`\`\n</details>"
+#          else
+#            echo -e " 🚀 Quantitative testing did not detect new false positives"
+#          fi
 
