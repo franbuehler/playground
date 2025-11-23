@@ -11,6 +11,8 @@ permissions: {}
 jobs:
   regression:
     runs-on: ubuntu-latest
+    outputs:
+      test_status: ${{ steps.regression.outcome }}
     permissions:
       pull-requests: write
     steps:
@@ -28,6 +30,7 @@ jobs:
 
       - name: "Run tests"
         id: quantitative
+        continue-on-error: true
         run: |
 
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
@@ -43,4 +46,12 @@ jobs:
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives"
           fi
+
+  manual_approval:
+    needs: regression
+    if: needs.regression.outputs.test_status != 'success'
+    runs-on: ubuntu-latest
+    environment: review   # triggers manual approval
+    steps:
+      - run: echo "Tests failed — reviewer approval required."
 
