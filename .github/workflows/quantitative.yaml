@@ -1,0 +1,45 @@
+name: Quantitative tests
+
+on:
+  pull_request_target:
+    branches:
+      - main
+  merge_group:
+
+# Pin tool versions to prevent problems
+permissions: {}
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: "Checkout main repo"
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          repository: coreruleset/coreruleset
+          ref: 'main'
+          path: 'mainBranchFolder'
+
+          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old.json)
+          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new.json)
+          
+          echo $OLD_FALSE_POSITIVES
+          echo $NEW_FALSE_POSITIVES
+
+          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
+            echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
+            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
+            echo -e "" >> pr_comment.md
+            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
+            diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
+            echo -e "\n\`\`\`\n</details>" >> pr_comment.md
+          else
+            echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
+          fi
+
