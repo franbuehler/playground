@@ -45,5 +45,6 @@ jobs:
             echo -e "\n\`\`\`\n</details>"
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives"
+            exit 1
           fi
 
