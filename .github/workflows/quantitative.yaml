@@ -12,7 +12,7 @@ jobs:
   regression:
     runs-on: ubuntu-latest
     outputs:
-      test_status: ${{ steps.regression.outcome }}
+      test_status: ${{ steps.tests.outcome }}
     permissions:
       pull-requests: write
     steps:
@@ -55,8 +55,6 @@ jobs:
     steps:
       - run: |
           echo "Quantitative tests failed (even if they are green) — reviewer approval required for the new FP added!"
-          echo "steps.tests.outcome:"
-          echo $steps.tests.outcome
           echo "needs.regression.outputs.test_status:"
-          echo $needs.regression.outputs.test_status
+          echo ${{ needs.regression.outputs.test_status }}
 
