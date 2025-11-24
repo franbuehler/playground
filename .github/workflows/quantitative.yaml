@@ -39,7 +39,7 @@ jobs:
           echo $OLD_FALSE_POSITIVES
           echo $NEW_FALSE_POSITIVES
 
-          if [ "$NEW_FALSE_POSITIVES" -eq "$OLD_FALSE_POSITIVES" ]; then
+          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
             echo -e " ⚠️ Quantitative testing detected new false positives"
             echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n"
             exit 1
