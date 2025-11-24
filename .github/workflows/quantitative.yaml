@@ -12,7 +12,7 @@ jobs:
   regression:
     runs-on: ubuntu-latest
     outputs:
-      test_status: ${{ steps.tests.outcome }}
+      test_status: ${{ steps.quantitative.outcome }}
     permissions:
       pull-requests: write
     steps:
